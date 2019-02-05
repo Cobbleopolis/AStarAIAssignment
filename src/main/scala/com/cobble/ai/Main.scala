@@ -1,6 +1,6 @@
 package com.cobble.ai
 
-import com.cobble.ai.eightPuzzle.{EightPuzzleAction, EightPuzzleNode, EightPuzzleState}
+import com.cobble.ai.eightPuzzle.{EightPuzzleNode, EightPuzzleState}
 
 object Main {
 
@@ -20,12 +20,9 @@ object Main {
         val initialNode: EightPuzzleNode = EightPuzzleNode(INITIAL_STATE, GOAL_STATE)
         println("Hello, World!")
         println(initialNode)
-        println("Index: " + INITIAL_STATE.zeroIndex)
-        println("Location: " + INITIAL_STATE.zeroLocation)
-        val secondState: EightPuzzleState = INITIAL_STATE.applyAction(EightPuzzleAction.MOVE_UP).get.asInstanceOf[EightPuzzleState]
-        println(secondState)
-        println("Index: " + secondState.zeroIndex)
-        println("Location: " + secondState.zeroLocation)
+        val nextStates: Array[EightPuzzleState] = INITIAL_STATE.getSuccessors.map(_.asInstanceOf[EightPuzzleState])
+        println(INITIAL_STATE.toPrettyString + "\n")
+        nextStates.map(_.toPrettyString + "\n").foreach(println)
     }
 
 }
