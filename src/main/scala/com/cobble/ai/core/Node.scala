@@ -12,7 +12,7 @@ abstract class Node[T <: State](state: T, parent: Option[Node[T]] = None) {
       * The cost so far to reach the current node.
       * This will be 0 if the parent node is None.
       */
-    val g: Int = parent.map(_.g).getOrElse(0)
+    val g: Int = parent.map(_.g + 1).getOrElse(0)
 
     /**
       * The value of the heuristic for the node's current state.

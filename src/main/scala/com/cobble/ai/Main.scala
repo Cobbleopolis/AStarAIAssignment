@@ -20,9 +20,9 @@ object Main {
         val initialNode: EightPuzzleNode = EightPuzzleNode(INITIAL_STATE, GOAL_STATE)
         println("Hello, World!")
         println(initialNode)
-        val nextStates: Array[EightPuzzleState] = INITIAL_STATE.getSuccessors.map(_.asInstanceOf[EightPuzzleState])
-        println(INITIAL_STATE.toPrettyString + "\n")
-        nextStates.map(_.toPrettyString + "\n").foreach(println)
+        val nextNodes = initialNode.getSuccessors
+        println(INITIAL_STATE.toPrettyString)
+        nextNodes.map(n => (n, n.f)).foreach(println)
     }
 
 }
