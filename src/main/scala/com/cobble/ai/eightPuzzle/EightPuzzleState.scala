@@ -12,6 +12,8 @@ case class EightPuzzleState(m00: Int, m01: Int, m02: Int, m10: Int, m11: Int, m1
 
     lazy val getValuesAsArray: Array[Int] = Array(m00, m01, m02, m10, m11, m12, m20, m21, m22)
 
+    def getValueLocation(value: Int): (Int, Int) = indexToLocation(getValuesAsArray.indexOf(value))
+
     private lazy val zeroIndex: Int = getValuesAsArray.indexOf(0)
 
     private lazy val zeroLocation: (Int, Int) = indexToLocation(zeroIndex)
