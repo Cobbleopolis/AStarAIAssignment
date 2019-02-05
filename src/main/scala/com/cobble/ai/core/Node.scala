@@ -19,6 +19,9 @@ abstract class Node[T <: State](state: T, parent: Option[Node[T]] = None) {
       */
     val h: Int
 
+
+    val isGoalNode: Boolean
+
     /**
       * Calculates all the possible successors
       * @return An Array of Nodes containing all valid child states.

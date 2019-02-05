@@ -6,6 +6,8 @@ case class EightPuzzleNode(state: EightPuzzleState, goalState: EightPuzzleState,
 
     val h: Int = numDisplacedHeuristic
 
+    override val isGoalNode: Boolean = state == goalState
+
     def numDisplacedHeuristic: Int = {
         state.getValuesAsArray.zip(goalState.getValuesAsArray).count(x => x._1 != x._2)
     }
