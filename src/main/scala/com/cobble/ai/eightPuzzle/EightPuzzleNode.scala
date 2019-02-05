@@ -13,4 +13,11 @@ case class EightPuzzleNode(state: EightPuzzleState, goalState: EightPuzzleState,
     }
 
     override def getSuccessors: Array[Node[EightPuzzleState]] = state.getSuccessors.map(s => EightPuzzleNode(s.asInstanceOf[EightPuzzleState], goalState, Some(this)))
+
+    override def equals(obj: Any): Boolean = {
+        obj match {
+            case n: EightPuzzleNode => this.state == n.state
+            case _ => false
+        }
+    }
 }

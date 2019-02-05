@@ -2,7 +2,6 @@ package com.cobble.ai.core
 
 abstract class Node[T <: State](state: T, parent: Option[Node[T]] = None) {
 
-
     /**
       * The evaluation function value of this node.
       */
@@ -27,12 +26,5 @@ abstract class Node[T <: State](state: T, parent: Option[Node[T]] = None) {
       * @return An Array of Nodes containing all valid child states.
       */
     def getSuccessors: Array[Node[T]]
-
-    /**
-      * Used to compare two Nodes.
-      * @param that The other Node to compare to
-      * @return The difference of this evaluation function and that evaluation function.
-      */
-    def compare(that: Node[T]): Int = this.f - that.f
 
 }
