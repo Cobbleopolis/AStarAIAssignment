@@ -2,28 +2,29 @@ package com.cobble.ai.eightPuzzle
 
 import com.cobble.ai.core.State
 
-case class EightPuzzleState(m00: Int, m01: Int, m02: Int, m10: Int, m11: Int, m12: Int, m20: Int, m21: Int, m22: Int) extends State {
+case class EightPuzzleState(values: Array[Int]) extends State {
 
-    def this(valueArray: Array[Int]) = this(
-        valueArray(0), valueArray(1), valueArray(2),
-        valueArray(3), valueArray(4), valueArray(5),
-        valueArray(6), valueArray(7), valueArray(8)
-    )
+    if (values.isEmpty)
+        throw new IllegalArgumentException("Values cannot be empty")
 
-    lazy val getValuesAsArray: Array[Int] = Array(m00, m01, m02, m10, m11, m12, m20, m21, m22)
+    private val lengthSqrt: Double = Math.sqrt(values.length)
+    val size: Int = lengthSqrt.toInt
 
-    def getValueLocation(value: Int): (Int, Int) = indexToLocation(getValuesAsArray.indexOf(value))
+    if (lengthSqrt - Math.floor(lengthSqrt) >= Double.MinPositiveValue)
+        throw new IllegalArgumentException("Values length must be a perfect square")
 
-    private lazy val zeroIndex: Int = getValuesAsArray.indexOf(0)
+    def getValueLocation(value: Int): (Int, Int) = indexToLocation(values.indexOf(value))
+
+    private lazy val zeroIndex: Int = values.indexOf(0)
 
     private lazy val zeroLocation: (Int, Int) = indexToLocation(zeroIndex)
 
-    private def indexToLocation(index: Int): (Int, Int) = (index / 3, index % 3)
+    private def indexToLocation(index: Int): (Int, Int) = (index % size, index / size)
 
-    private def locationToIndex(x: Int, y: Int): Int = x * 3 + y
+    private def locationToIndex(x: Int, y: Int): Int = y * size + x
 
     private def swapIndexes(index1: Int, index2: Int): EightPuzzleState = {
-        val vArray = getValuesAsArray.clone
+        val vArray = values.clone
         val tmp = vArray(index2)
         vArray(index2) = vArray(index1)
         vArray(index1) = tmp
@@ -34,7 +35,7 @@ case class EightPuzzleState(m00: Int, m01: Int, m02: Int, m10: Int, m11: Int, m1
         swapIndexes(locationToIndex(x1, y1), locationToIndex(x2, y2))
     }
 
-    override val isValid: Boolean = (0 to 8).forall(getValuesAsArray.contains)
+    override val isValid: Boolean = values.indices.forall(values.contains)
 
     override def getSuccessors: Array[State] = EightPuzzleAction.values.map(applyAction).filterNot(_.isEmpty).map(_.get).filter(_.isValid).toArray
 
@@ -42,32 +43,38 @@ case class EightPuzzleState(m00: Int, m01: Int, m02: Int, m10: Int, m11: Int, m1
         val stateOpt: Option[State] = action match {
             case EightPuzzleAction.MOVE_UP =>
                 zeroLocation match {
-                    case (0, _) => None
-                    case (x, y) => Some(swapLocation(x, y, x - 1, y))
+                    case (_, y) if y <= 0 => None
+                    case (x, y) => Some(swapLocation(x, y, x, y - 1))
                 }
             case EightPuzzleAction.MOVE_DOWN =>
                 zeroLocation match {
-                    case (2, _) => None
-                    case (x, y) => Some(swapLocation(x, y, x + 1, y))
+                    case (_, y) if y >= size - 1 => None
+                    case (x, y) => Some(swapLocation(x, y, x, y + 1))
                 }
             case EightPuzzleAction.MOVE_LEFT =>
                 zeroLocation match {
-                    case (_, 0) => None
-                    case (x, y) => Some(swapLocation(x, y, x, y - 1))
+                    case (x, _) if x <= 0 => None
+                    case (x, y) => Some(swapLocation(x, y, x - 1, y))
                 }
             case EightPuzzleAction.MOVE_RIGHT =>
                 zeroLocation match {
-                    case (_, 2) => None
-                    case (x, y) => Some(swapLocation(x, y, x, y + 1))
+                    case (x, _) if x >= size - 1 => None
+                    case (x, y) => Some(swapLocation(x, y, x + 1, y))
                 }
             case _ => None
         }
         if (stateOpt.isDefined && !stateOpt.get.isValid) None else stateOpt
     }
 
-    def toPrettyString: String = s"$m00, $m01, $m02,\n$m10, $m11, $m12,\n$m20, $m21, $m22"
-}
+    override def equals(obj: Any): Boolean = {
+        obj match {
+            case that: EightPuzzleState => this.values.deep == that.values.deep && this.size == that.size && this.size == that.size
+            case _ => false
+        }
+    }
 
-object EightPuzzleState {
-    def apply(valueArray: Array[Int]) = new EightPuzzleState(valueArray)
+    def toPrettyString: String = {
+        val slotSize: Int = values.map(x => x.toString.length).max
+        values.map(x => s"%${slotSize}s".format(x.toString)).grouped(size).map(_.mkString(", ")).mkString("\n")
+    }
 }
