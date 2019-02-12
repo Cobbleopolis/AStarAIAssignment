@@ -2,6 +2,8 @@ package com.cobble.ai.eightPuzzle
 
 import com.cobble.ai.core.Problem
 
+import scala.collection.mutable.ArrayBuffer
+
 class EightPuzzleProblem extends Problem[EightPuzzleState, EightPuzzleNode] {
 
     val INITIAL_STATE: EightPuzzleState = EightPuzzleState(Array(
@@ -51,4 +53,28 @@ class EightPuzzleProblem extends Problem[EightPuzzleState, EightPuzzleNode] {
     //    ))
 
     override val initialNode: EightPuzzleNode = EightPuzzleNode(INITIAL_STATE, GOAL_STATE)
+
+    /**
+      * Gets a node's path to the root node.
+      *
+      * @param node The node to get the path for.
+      * @return An array of nodes that from the root node to node.
+      */
+    def getPath(node: EightPuzzleNode): Array[EightPuzzleNode] = getPath(Option(node))
+
+    /**
+      * Gets a node's path to the root node.
+      *
+      * @param node The optional node to get the path for.
+      * @return An array of nodes that from the root node to node. If node is None the array will be empty.
+      */
+    def getPath(node: Option[EightPuzzleNode]): Array[EightPuzzleNode] = {
+        var currentNode: Option[EightPuzzleNode] = node
+        val path: ArrayBuffer[EightPuzzleNode] = ArrayBuffer[EightPuzzleNode]()
+        while (currentNode.isDefined) {
+            path += currentNode.get
+            currentNode = currentNode.get.parent.asInstanceOf[Option[EightPuzzleNode]]
+        }
+        path.reverse.toArray
+    }
 }
