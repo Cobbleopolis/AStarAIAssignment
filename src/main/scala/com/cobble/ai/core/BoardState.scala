@@ -13,6 +13,7 @@ abstract class BoardState[T, S <: State[S]](val board: Array[T]) extends State[S
 
     /**
       * Converts an index in the array to its (x, y) location.
+      *
       * @param index The index to get the location for
       * @return The (x, y) location for the provided index.
       */
@@ -20,6 +21,7 @@ abstract class BoardState[T, S <: State[S]](val board: Array[T]) extends State[S
 
     /**
       * Converts an (x, y) location to a location in the array.
+      *
       * @param x The x location of the index to find.
       * @param y The y location of the index to find.
       * @return The index in the array for the provided (x, y) location.
@@ -28,6 +30,7 @@ abstract class BoardState[T, S <: State[S]](val board: Array[T]) extends State[S
 
     /**
       * Converts an (x, y) location to a location in the array.
+      *
       * @param loc The location of the index to find.
       * @return The index in the array for the provided (x, y) location.
       */

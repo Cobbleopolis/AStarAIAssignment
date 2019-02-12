@@ -1,6 +1,6 @@
 package com.cobble.ai.eightPuzzle
 
-import com.cobble.ai.core.{BoardState, State}
+import com.cobble.ai.core.BoardState
 import com.cobble.ai.eightPuzzle.EightPuzzleAction.EightPuzzleAction
 
 case class EightPuzzleState(override val board: Array[Int]) extends BoardState[Int, EightPuzzleState](board) {

@@ -1,9 +1,6 @@
 package com.cobble.ai.eightPuzzle
 
 import com.cobble.ai.core.Action
-import com.cobble.ai.eightPuzzle
-
-//import com.cobble.ai.core.Action.Action
 
 object EightPuzzleAction extends Enumeration with Action {
     type EightPuzzleAction = Value

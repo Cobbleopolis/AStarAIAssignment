@@ -10,7 +10,7 @@ object Main {
     def main(args: Array[String]): Unit = {
         println("Eight Puzzle:")
         eightPuzzle()
-        println("N Queen:")
+        println("\nN Queen:")
         nQueen()
     }
 

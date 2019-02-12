@@ -2,21 +2,19 @@ package com.cobble.ai.eightPuzzle
 
 import com.cobble.ai.core.Problem
 
-import scala.collection.mutable.ArrayBuffer
-
 class EightPuzzleProblem extends Problem[EightPuzzleState, EightPuzzleNode] {
 
-//    val INITIAL_STATE: EightPuzzleState = EightPuzzleState(Array(
-//        2, 8, 3,
-//        1, 6, 4,
-//        7, 0, 5
-//    ))
-//
-//    val GOAL_STATE: EightPuzzleState = EightPuzzleState(Array(
-//        1, 2, 3,
-//        8, 0, 4,
-//        7, 6, 5
-//    ))
+    //    val INITIAL_STATE: EightPuzzleState = EightPuzzleState(Array(
+    //        2, 8, 3,
+    //        1, 6, 4,
+    //        7, 0, 5
+    //    ))
+    //
+    //    val GOAL_STATE: EightPuzzleState = EightPuzzleState(Array(
+    //        1, 2, 3,
+    //        8, 0, 4,
+    //        7, 6, 5
+    //    ))
 
     val INITIAL_STATE: EightPuzzleState = EightPuzzleState(Array(
         1, 2, 3, 4,

@@ -1,7 +1,5 @@
 package com.cobble.ai.core
 
-import com.cobble.ai.eightPuzzle.EightPuzzleNode
-
 import scala.collection.mutable.ArrayBuffer
 import scala.reflect.ClassTag
 

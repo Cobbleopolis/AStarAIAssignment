@@ -2,8 +2,6 @@ package com.cobble.ai.nqueen
 
 import com.cobble.ai.core.Problem
 
-import scala.collection.mutable.ArrayBuffer
-
 class NQueenProblem extends Problem[NQueenState, NQueenNode] {
 
     val BOARD_SIZE: Int = 8
