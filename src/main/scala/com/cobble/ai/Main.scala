@@ -50,7 +50,11 @@ object Main {
         val foundNode: Option[NQueenNode] = nQueenProblem.findSolution()
         val searchTime: Long = System.currentTimeMillis() - startTime
         val path: Array[NQueenNode] = nQueenProblem.getPath(foundNode)
-        path.map(_.state.toPrettyString + "\n").foreach(println)
+        if (path.nonEmpty)
+            path.map(_.state.toPrettyString + "\n").foreach(println)
+        else
+            println("No path found!")
+
         println(s"Found in: $searchTime ms")
     }
 
