@@ -3,7 +3,7 @@ package com.cobble.ai.eightPuzzle
 import com.cobble.ai.core.{BoardState, State}
 import com.cobble.ai.eightPuzzle.EightPuzzleAction.EightPuzzleAction
 
-case class EightPuzzleState(override val board: Array[Int]) extends BoardState[Int](board) {
+case class EightPuzzleState(override val board: Array[Int]) extends BoardState[Int, EightPuzzleState](board) {
 
     def getValueLocation(value: Int): (Int, Int) = indexToLocation(board.indexOf(value))
 
@@ -25,17 +25,17 @@ case class EightPuzzleState(override val board: Array[Int]) extends BoardState[I
 
     override val isValid: Boolean = board.indices.forall(board.contains)
 
-    override def getSuccessors: Array[State] = getSuccessorsActions.map(_._2)
+    override def getSuccessors: Array[EightPuzzleState] = getSuccessorsActions.map(_._2)
 
-    def getSuccessorsActions: Array[(EightPuzzleAction, State)] = EightPuzzleAction.values
+    def getSuccessorsActions: Array[(EightPuzzleAction, EightPuzzleState)] = EightPuzzleAction.values
         .map(a => (a, applyAction(a)))
         .filterNot(_._2.isEmpty)
         .map(x => (x._1, x._2.get))
         .filter(_._2.isValid)
         .toArray
 
-    override def applyAction[EightPuzzleAction](action: EightPuzzleAction): Option[State] = {
-        val stateOpt: Option[State] = action match {
+    override def applyAction[EightPuzzleAction](action: EightPuzzleAction): Option[EightPuzzleState] = {
+        val stateOpt: Option[EightPuzzleState] = action match {
             case EightPuzzleAction.MOVE_UP =>
                 zeroLocation match {
                     case (_, y) if y <= 0 => None

@@ -1,5 +1,7 @@
 package com.cobble.ai.core
 
+import com.cobble.ai.eightPuzzle.EightPuzzleNode
+
 import scala.collection.mutable.ArrayBuffer
 import scala.reflect.ClassTag
 
@@ -7,10 +9,10 @@ import scala.reflect.ClassTag
   * Defines a problem to be solved.
   *
   * @param c An implicit ClassTag[N] called so we can create arrays in a generic context.
-  * @tparam S The Type of the state for this problem.
-  * @tparam N The Type of the node for this problem. Must be a type or subtype of Node[S].
+  * @tparam S The Type of the state for this problem. Must be as subtype of [[com.cobble.ai.core.State]].
+  * @tparam N The Type of the node for this problem. Must be a type or subtype of [[com.cobble.ai.core.Node]].
   */
-abstract class Problem[S <: State, N <: Node[S]](implicit c: ClassTag[N]) {
+abstract class Problem[S <: State[S], N <: Node[_, S]](implicit c: ClassTag[N]) {
 
     /**
       * The initial node of the problem.
@@ -37,6 +39,22 @@ abstract class Problem[S <: State, N <: Node[S]](implicit c: ClassTag[N]) {
                 ).sortBy(_.f) // Sort the final open set by the evaluation function.
         }
         None
+    }
+
+    /**
+      * Gets a node's path to the root node.
+      *
+      * @param node The optional node to get the path for.
+      * @return An array of nodes that from the root node to node. If node is None the array will be empty.
+      */
+    def getPath(node: Option[N]): Array[N] = {
+        var currentNode: Option[N] = node
+        val path: ArrayBuffer[N] = ArrayBuffer[N]()
+        while (currentNode.isDefined) {
+            path += currentNode.get
+            currentNode = currentNode.get.parent.map(_.asInstanceOf[N])
+        }
+        path.reverse.toArray
     }
 
 }

@@ -1,10 +1,8 @@
 package com.cobble.ai.nqueen
 
-import com.cobble.ai.core.{Action, BoardState, State}
+import com.cobble.ai.core.{Action, BoardState}
 
-import scala.io.AnsiColor
-
-case class NQueenState(override val board: Array[Byte]) extends BoardState[Byte](board) {
+case class NQueenState(override val board: Array[Byte]) extends BoardState[Byte, NQueenState](board) {
 
     /**
       * Determines if a location is occupied by a queen or not.
@@ -86,12 +84,12 @@ case class NQueenState(override val board: Array[Byte]) extends BoardState[Byte]
         }
     }
 
-    override def getSuccessors: Array[State] = {
-        getSafeLocationsInColumn(nextClearColumn).map(loc => applyAction(NQueenAction(loc._1, loc._2))).filter(_.isDefined).map(_.get.asInstanceOf[State]).filter(_.isValid)
+    override def getSuccessors: Array[NQueenState] = {
+        getSafeLocationsInColumn(nextClearColumn).map(loc => applyAction(NQueenAction(loc._1, loc._2))).filter(_.isDefined).map(_.get).filter(_.isValid)
     }
 
     override def toPrettyString: String = {
-        board.map{
+        board.map {
             case 1 => "Q"
             case 0 => "_"
             case _ => "?"

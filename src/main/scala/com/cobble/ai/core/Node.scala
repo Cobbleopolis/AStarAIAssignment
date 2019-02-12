@@ -5,9 +5,10 @@ package com.cobble.ai.core
   *
   * @param state  The state of the problem at this node.
   * @param parent The optional parent of this node. Some if this has a parent. None otherwise.
-  * @tparam T The Type of the state being stored.
+  * @tparam N The type of the implementing node
+  * @tparam S The Type of the state being stored.
   */
-abstract class Node[T <: State](state: T, parent: Option[Node[T]] = None) {
+abstract class Node[N <: Node[_, S], S <: State[S]](val state: S, val parent: Option[N] = None) {
 
     /**
       * The evaluation function value of this node.
@@ -33,6 +34,6 @@ abstract class Node[T <: State](state: T, parent: Option[Node[T]] = None) {
       *
       * @return An Array of Nodes containing all valid child states.
       */
-    def getSuccessors: Array[Node[T]]
+    def getSuccessors: Array[N]
 
 }

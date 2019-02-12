@@ -3,7 +3,12 @@ package com.cobble.ai.eightPuzzle
 import com.cobble.ai.core.Node
 import com.cobble.ai.eightPuzzle.EightPuzzleAction.EightPuzzleAction
 
-case class EightPuzzleNode(state: EightPuzzleState, goalState: EightPuzzleState, action: Option[EightPuzzleAction] = None, parent: Option[Node[EightPuzzleState]] = None) extends Node[EightPuzzleState](state, parent) {
+case class EightPuzzleNode(
+                              override val state: EightPuzzleState,
+                              goalState: EightPuzzleState,
+                              action: Option[EightPuzzleAction] = None,
+                              override val parent: Option[EightPuzzleNode] = None
+                          ) extends Node[EightPuzzleNode, EightPuzzleState](state, parent) {
 
     val h: Int = manhattanDistanceHeuristic
 
@@ -21,7 +26,7 @@ case class EightPuzzleNode(state: EightPuzzleState, goalState: EightPuzzleState,
         }).sum
     }
 
-    override def getSuccessors: Array[Node[EightPuzzleState]] = state.getSuccessorsActions.map(s => EightPuzzleNode(s._2.asInstanceOf[EightPuzzleState], goalState, Some(s._1), Some(this)))
+    override def getSuccessors: Array[EightPuzzleNode] = state.getSuccessorsActions.map(s => EightPuzzleNode(s._2, goalState, Some(s._1), Some(this)))
 
     override def equals(obj: Any): Boolean = {
         obj match {

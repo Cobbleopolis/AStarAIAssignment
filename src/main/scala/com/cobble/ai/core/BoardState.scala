@@ -1,6 +1,6 @@
 package com.cobble.ai.core
 
-abstract class BoardState[T](val board: Array[T]) extends State {
+abstract class BoardState[T, S <: State[S]](val board: Array[T]) extends State[S] {
 
     if (board.isEmpty)
         throw new IllegalArgumentException("Values cannot be empty")
@@ -35,7 +35,7 @@ abstract class BoardState[T](val board: Array[T]) extends State {
 
     override def equals(obj: Any): Boolean = {
         obj match {
-            case that: BoardState[T] => this.board.deep == that.board.deep && this.size == that.size && this.size == that.size
+            case that: BoardState[T, S] => this.board.deep == that.board.deep && this.size == that.size && this.size == that.size
             case _ => false
         }
     }

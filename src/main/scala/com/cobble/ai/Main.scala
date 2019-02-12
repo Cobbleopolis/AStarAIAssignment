@@ -8,8 +8,8 @@ object Main {
     val PRINT_STEPS: Boolean = true
 
     def main(args: Array[String]): Unit = {
-        //        println("Eight Puzzle:")
-        //        eightPuzzle()
+        println("Eight Puzzle:")
+        eightPuzzle()
         println("N Queen:")
         nQueen()
     }
