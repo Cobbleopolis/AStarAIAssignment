@@ -1,6 +1,6 @@
 package com.cobble.ai.eightPuzzle
 
-import com.cobble.ai.core.{Action, State}
+import com.cobble.ai.core.State
 import com.cobble.ai.eightPuzzle.EightPuzzleAction.EightPuzzleAction
 
 case class EightPuzzleState(values: Array[Int]) extends State {
@@ -83,6 +83,7 @@ case class EightPuzzleState(values: Array[Int]) extends State {
 
     def toPrettyString: String = {
         val slotSize: Int = values.map(x => x.toString.length).max
+        //noinspection ScalaMalformedFormatString
         values.map(x => s"%${slotSize}s".format(x.toString)).grouped(size).map(_.mkString(", ")).mkString("\n")
     }
 }
