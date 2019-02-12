@@ -6,9 +6,13 @@ object Main {
 
     val PRINT_STEPS: Boolean = true
 
-    val eightPuzzleProblem: EightPuzzleProblem = new EightPuzzleProblem
-
     def main(args: Array[String]): Unit = {
+        println("Eight Puzzle:")
+        eightPuzzle()
+    }
+
+    def eightPuzzle(): Unit = {
+        val eightPuzzleProblem: EightPuzzleProblem = new EightPuzzleProblem
         println("Initial State:")
         println(eightPuzzleProblem.INITIAL_STATE.toPrettyString)
         println("Goal State:")
