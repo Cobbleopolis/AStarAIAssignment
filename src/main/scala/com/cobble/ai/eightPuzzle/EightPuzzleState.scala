@@ -1,6 +1,7 @@
 package com.cobble.ai.eightPuzzle
 
-import com.cobble.ai.core.State
+import com.cobble.ai.core.{Action, State}
+import com.cobble.ai.eightPuzzle.EightPuzzleAction.EightPuzzleAction
 
 case class EightPuzzleState(values: Array[Int]) extends State {
 
@@ -37,7 +38,14 @@ case class EightPuzzleState(values: Array[Int]) extends State {
 
     override val isValid: Boolean = values.indices.forall(values.contains)
 
-    override def getSuccessors: Array[State] = EightPuzzleAction.values.map(applyAction).filterNot(_.isEmpty).map(_.get).filter(_.isValid).toArray
+    override def getSuccessors: Array[State] = getSuccessorsActions.map(_._2)
+
+    def getSuccessorsActions: Array[(EightPuzzleAction, State)] = EightPuzzleAction.values
+        .map(a => (a, applyAction(a)))
+        .filterNot(_._2.isEmpty)
+        .map(x => (x._1, x._2.get))
+        .filter(_._2.isValid)
+        .toArray
 
     override def applyAction[EightPuzzleAction](action: EightPuzzleAction): Option[State] = {
         val stateOpt: Option[State] = action match {
