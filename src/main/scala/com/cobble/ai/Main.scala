@@ -4,7 +4,7 @@ import com.cobble.ai.eightPuzzle.{EightPuzzleAction, EightPuzzleNode, EightPuzzl
 
 object Main {
 
-    val PRINT_STEPS: Boolean = false
+    val PRINT_STEPS: Boolean = true
 
     val eightPuzzleProblem: EightPuzzleProblem = new EightPuzzleProblem
 
