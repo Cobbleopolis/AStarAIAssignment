@@ -1,31 +1,18 @@
 package com.cobble.ai.eightPuzzle
 
-import com.cobble.ai.core.State
+import com.cobble.ai.core.{BoardState, State}
 import com.cobble.ai.eightPuzzle.EightPuzzleAction.EightPuzzleAction
 
-case class EightPuzzleState(values: Array[Int]) extends State {
+case class EightPuzzleState(override val board: Array[Int]) extends BoardState[Int](board) {
 
-    if (values.isEmpty)
-        throw new IllegalArgumentException("Values cannot be empty")
+    def getValueLocation(value: Int): (Int, Int) = indexToLocation(board.indexOf(value))
 
-    private val lengthSqrt: Double = Math.sqrt(values.length)
-    val size: Int = lengthSqrt.toInt
-
-    if (lengthSqrt - Math.floor(lengthSqrt) >= Double.MinPositiveValue)
-        throw new IllegalArgumentException("Values length must be a perfect square")
-
-    def getValueLocation(value: Int): (Int, Int) = indexToLocation(values.indexOf(value))
-
-    private lazy val zeroIndex: Int = values.indexOf(0)
+    private lazy val zeroIndex: Int = board.indexOf(0)
 
     private lazy val zeroLocation: (Int, Int) = indexToLocation(zeroIndex)
 
-    private def indexToLocation(index: Int): (Int, Int) = (index % size, index / size)
-
-    private def locationToIndex(x: Int, y: Int): Int = y * size + x
-
     private def swapIndexes(index1: Int, index2: Int): EightPuzzleState = {
-        val vArray = values.clone
+        val vArray = board.clone
         val tmp = vArray(index2)
         vArray(index2) = vArray(index1)
         vArray(index1) = tmp
@@ -36,7 +23,7 @@ case class EightPuzzleState(values: Array[Int]) extends State {
         swapIndexes(locationToIndex(x1, y1), locationToIndex(x2, y2))
     }
 
-    override val isValid: Boolean = values.indices.forall(values.contains)
+    override val isValid: Boolean = board.indices.forall(board.contains)
 
     override def getSuccessors: Array[State] = getSuccessorsActions.map(_._2)
 
@@ -72,18 +59,5 @@ case class EightPuzzleState(values: Array[Int]) extends State {
             case _ => None
         }
         if (stateOpt.isDefined && !stateOpt.get.isValid) None else stateOpt
-    }
-
-    override def equals(obj: Any): Boolean = {
-        obj match {
-            case that: EightPuzzleState => this.values.deep == that.values.deep && this.size == that.size && this.size == that.size
-            case _ => false
-        }
-    }
-
-    def toPrettyString: String = {
-        val slotSize: Int = values.map(x => x.toString.length).max
-        //noinspection ScalaMalformedFormatString
-        values.map(x => s"%${slotSize}s".format(x.toString)).grouped(size).map(_.mkString(", ")).mkString("\n")
     }
 }
