@@ -1,14 +1,17 @@
 package com.cobble.ai
 
 import com.cobble.ai.eightPuzzle.{EightPuzzleAction, EightPuzzleNode, EightPuzzleProblem}
+import com.cobble.ai.nqueen.{NQueenNode, NQueenProblem}
 
 object Main {
 
     val PRINT_STEPS: Boolean = true
 
     def main(args: Array[String]): Unit = {
-        println("Eight Puzzle:")
-        eightPuzzle()
+        //        println("Eight Puzzle:")
+        //        eightPuzzle()
+        println("N Queen:")
+        nQueen()
     }
 
     def eightPuzzle(): Unit = {
@@ -38,6 +41,16 @@ object Main {
         else
             println("No path found!")
 
+        println(s"Found in: $searchTime ms")
+    }
+
+    def nQueen(): Unit = {
+        val nQueenProblem: NQueenProblem = new NQueenProblem
+        val startTime: Long = System.currentTimeMillis()
+        val foundNode: Option[NQueenNode] = nQueenProblem.findSolution()
+        val searchTime: Long = System.currentTimeMillis() - startTime
+        val path: Array[NQueenNode] = nQueenProblem.getPath(foundNode)
+        path.map(_.state.toPrettyString + "\n").foreach(println)
         println(s"Found in: $searchTime ms")
     }
 
