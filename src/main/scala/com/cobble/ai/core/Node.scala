@@ -1,5 +1,12 @@
 package com.cobble.ai.core
 
+/**
+  * A node representing a state's location within the search tree.
+  *
+  * @param state  The state of the problem at this node.
+  * @param parent The optional parent of this node. Some if this has a parent. None otherwise.
+  * @tparam T The Type of the state being stored.
+  */
 abstract class Node[T <: State](state: T, parent: Option[Node[T]] = None) {
 
     /**
@@ -23,6 +30,7 @@ abstract class Node[T <: State](state: T, parent: Option[Node[T]] = None) {
 
     /**
       * Calculates all the possible successors
+      *
       * @return An Array of Nodes containing all valid child states.
       */
     def getSuccessors: Array[Node[T]]
