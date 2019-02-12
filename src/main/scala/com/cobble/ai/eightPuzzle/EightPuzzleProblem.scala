@@ -18,12 +18,6 @@ class EightPuzzleProblem extends Problem[EightPuzzleState, EightPuzzleNode] {
         7, 6, 5
     ))
 
-    if (!INITIAL_STATE.isValid)
-        throw new IllegalStateException("Initial State not valid!")
-
-    if (!GOAL_STATE.isValid)
-        throw new IllegalStateException("Goal State not valid!")
-
     //    val INITIAL_STATE: EightPuzzleState = EightPuzzleState(Array(
     //        14, 11,  9,  7,
     //         1,  6, 12, 13,
@@ -51,6 +45,12 @@ class EightPuzzleProblem extends Problem[EightPuzzleState, EightPuzzleNode] {
     //        9, 10, 11, 12,
     //        13, 14, 15, 0
     //    ))
+
+    if (!INITIAL_STATE.isValid)
+        throw new IllegalStateException("Initial State not valid!")
+
+    if (!GOAL_STATE.isValid)
+        throw new IllegalStateException("Goal State not valid!")
 
     override val initialNode: EightPuzzleNode = EightPuzzleNode(INITIAL_STATE, GOAL_STATE)
 
