@@ -42,7 +42,7 @@ object Main {
                     case _ => "???"
                 }).foreach(println)
             else
-                path.map(_.state.toPrettyString + "\n").reverse.foreach(println)
+                path.map(_.state.toPrettyString + "\n").foreach(println)
         else
             println("No path found!")
 
