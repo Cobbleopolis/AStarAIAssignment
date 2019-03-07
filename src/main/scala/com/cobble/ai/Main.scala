@@ -3,7 +3,7 @@ package com.cobble.ai
 import com.cobble.ai.eightPuzzle.{EightPuzzleAction, EightPuzzleNode, EightPuzzleProblem}
 import com.cobble.ai.nqueen.{NQueenNode, NQueenProblem}
 
-import scala.concurrent.Await
+import scala.concurrent.{Await, TimeoutException}
 import scala.concurrent.duration._
 
 object Main {
@@ -25,9 +25,15 @@ object Main {
         println(eightPuzzleProblem.INITIAL_STATE.toPrettyString)
         println("Goal State:")
         println(eightPuzzleProblem.GOAL_STATE.toPrettyString + "\n")
-
+        var foundNode: Option[EightPuzzleNode] = None
         val startTime: Long = System.currentTimeMillis()
-        val foundNode: Option[EightPuzzleNode] = Await.result(eightPuzzleProblem.findSolutionAsync(), MAX_SEARCH_TIME)
+        try {
+            foundNode = Await.result(eightPuzzleProblem.findSolutionAsync(), MAX_SEARCH_TIME)
+        } catch {
+            case _: TimeoutException =>
+                println("No solution found withing the max search time")
+                return
+        }
         val searchTime: Long = System.currentTimeMillis() - startTime
         val path: Array[EightPuzzleNode] = eightPuzzleProblem.getPath(foundNode)
         println("Solution Path:")
@@ -51,8 +57,15 @@ object Main {
 
     def nQueen(): Unit = {
         val nQueenProblem: NQueenProblem = new NQueenProblem
+        var foundNode: Option[NQueenNode] = None
         val startTime: Long = System.currentTimeMillis()
-        val foundNode: Option[NQueenNode] = Await.result(nQueenProblem.findSolutionAsync(), MAX_SEARCH_TIME)
+        try {
+            foundNode = Await.result(nQueenProblem.findSolutionAsync(), MAX_SEARCH_TIME)
+        } catch {
+            case _: TimeoutException =>
+                println("No solution found withing the max search time")
+                return
+        }
         val searchTime: Long = System.currentTimeMillis() - startTime
         val path: Array[NQueenNode] = nQueenProblem.getPath(foundNode)
         if (path.nonEmpty)
