@@ -26,7 +26,13 @@ case class EightPuzzleNode(
         }).sum
     }
 
-    override def getSuccessors: Array[EightPuzzleNode] = state.getSuccessorsActions.map(s => EightPuzzleNode(s._2, goalState, Some(s._1), Some(this)))
+    override def getSuccessors: Array[EightPuzzleNode] = EightPuzzleAction.values
+        .map(a => (a, state.applyAction(a)))
+        .filter(_._2.isDefined)
+        .map(x => (x._1, x._2.get))
+        .filter(_._2.isValid)
+        .map(s => EightPuzzleNode(s._2, goalState, Some(s._1), Some(this)))
+        .toArray
 
     override def equals(obj: Any): Boolean = {
         obj match {

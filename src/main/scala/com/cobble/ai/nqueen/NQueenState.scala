@@ -84,10 +84,6 @@ case class NQueenState(override val board: Array[Byte]) extends BoardState[Byte,
         }
     }
 
-    override def getSuccessors: Array[NQueenState] = {
-        getSafeLocationsInColumn(nextClearColumn).map(loc => applyAction(NQueenAction(loc._1, loc._2))).filter(_.isDefined).map(_.get).filter(_.isValid)
-    }
-
     override def toPrettyString: String = {
         board.map {
             case 1 => "Q"

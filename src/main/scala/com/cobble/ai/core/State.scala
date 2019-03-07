@@ -21,11 +21,4 @@ abstract class State[S <: State[S]] {
       */
     def applyAction[T <: Action](action: T): Option[S]
 
-    /**
-      * Gets all the possible successors of this state.
-      *
-      * @return All the possible successors of this state.
-      */
-    def getSuccessors: Array[S]
-
 }

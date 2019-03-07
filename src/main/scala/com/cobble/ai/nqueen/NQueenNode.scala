@@ -12,5 +12,10 @@ case class NQueenNode(
 
     override val isGoalNode: Boolean = state.queenCount == goalQueenCount
 
-    override def getSuccessors: Array[NQueenNode] = state.getSuccessors.map(s => NQueenNode(s, goalQueenCount, Some(this)))
+    override def getSuccessors: Array[NQueenNode] = state.getSafeLocationsInColumn(state.nextClearColumn)
+        .map(loc => state.applyAction(NQueenAction(loc._1, loc._2)))
+        .filter(_.isDefined)
+        .map(_.get)
+        .filter(_.isValid)
+        .map(NQueenNode(_, goalQueenCount, Some(this)))
 }
