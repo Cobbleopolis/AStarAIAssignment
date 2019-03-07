@@ -1,6 +1,8 @@
 package com.cobble.ai.core
 
 import scala.collection.mutable.ArrayBuffer
+import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.reflect.ClassTag
 
 /**
@@ -16,6 +18,12 @@ abstract class Problem[S <: State[S], N <: Node[_, S]](implicit c: ClassTag[N]) 
       * The initial node of the problem.
       */
     val initialNode: N
+
+    /**
+      * Simply wraps findSolution() in a Future
+      * @return A Future that returns Some(Node) if a solution can be found. None otherwise.
+      */
+    def findSolutionAsync(): Future[Option[N]] = Future(findSolution())
 
     /**
       * Finds a solution to the problem.

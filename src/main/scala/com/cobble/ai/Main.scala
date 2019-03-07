@@ -3,9 +3,14 @@ package com.cobble.ai
 import com.cobble.ai.eightPuzzle.{EightPuzzleAction, EightPuzzleNode, EightPuzzleProblem}
 import com.cobble.ai.nqueen.{NQueenNode, NQueenProblem}
 
+import scala.concurrent.Await
+import scala.concurrent.duration._
+
 object Main {
 
     val PRINT_STEPS: Boolean = true
+
+    val MAX_SEARCH_TIME: Duration = 1.hour
 
     def main(args: Array[String]): Unit = {
         println("Eight Puzzle:")
@@ -22,7 +27,7 @@ object Main {
         println(eightPuzzleProblem.GOAL_STATE.toPrettyString + "\n")
 
         val startTime: Long = System.currentTimeMillis()
-        val foundNode: Option[EightPuzzleNode] = eightPuzzleProblem.findSolution()
+        val foundNode: Option[EightPuzzleNode] = Await.result(eightPuzzleProblem.findSolutionAsync(), MAX_SEARCH_TIME)
         val searchTime: Long = System.currentTimeMillis() - startTime
         val path: Array[EightPuzzleNode] = eightPuzzleProblem.getPath(foundNode)
         println("Solution Path:")
@@ -47,7 +52,7 @@ object Main {
     def nQueen(): Unit = {
         val nQueenProblem: NQueenProblem = new NQueenProblem
         val startTime: Long = System.currentTimeMillis()
-        val foundNode: Option[NQueenNode] = nQueenProblem.findSolution()
+        val foundNode: Option[NQueenNode] = Await.result(nQueenProblem.findSolutionAsync(), MAX_SEARCH_TIME)
         val searchTime: Long = System.currentTimeMillis() - startTime
         val path: Array[NQueenNode] = nQueenProblem.getPath(foundNode)
         if (path.nonEmpty)
