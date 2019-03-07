@@ -17,7 +17,7 @@ abstract class State[S <: State[S]] {
       *
       * @param action The action to be applied.
       * @tparam T The type of the Action being applied.
-      * @return The optional resulting state from applying the action. Some if the action can be applied to the current state. False otherwise
+      * @return The optional resulting state from applying the action. Some if the action can be applied to the current state. None otherwise
       */
     def applyAction[T <: Action](action: T): Option[S]
 
